@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+	
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	
+</head>
+<body>
+<div class="container">
+	<div class="row">
+        <div class="well" style="width:300px; padding: 8px 0;">
+            <div style="overflow-y: scroll; overflow-x: hidden; height: 500px;">
+                <ul class="nav nav-list">
+                    <li><label class="tree-toggler nav-header">User Management</label>
+                        <ul class="nav nav-list tree">
+                            <li><a href="userlist.jsp" target="main">User List</a></li>                      
+                        </ul>
+                    </li>
+                    <li class="divider"></li>
+                    <li><label class="tree-toggler nav-header">Category Management</label>
+                        <ul class="nav nav-list tree">
+                            <li><a href="categoryadd.jsp" target="main">Add Top Category</a></li> 
+                            <li><a href="categorylist.jsp" target="main">Category List</a></li>  
+                            <li><a href="categorylistTreeview.jsp" target="main" >Category List Treeview</a></li>                                              
+                        </ul>
+                    </li>
+                    <li class="divider"></li>
+                    <li><label class="tree-toggler nav-header">Product Management</label>
+                        <ul class="nav nav-list tree">
+                            <li><a href="productlist.jsp" target="main">Product List</a></li>    
+                            <li><a href="productadd.jsp" target="main">Product Add</a></li> 
+                            <li><a href="productsearch_m.jsp" target="main">Product Search</a></li>
+                            <li><a href="productdelete.jsp" target="main">Product Delete</a></li>  
+                            <li><a href="showproductsaleschart.jsp" target="main">Product Sales</a></li>                                              
+                        </ul>
+                    </li>
+                    <li class="divider"></li>
+                    <li><label class="tree-toggler nav-header">Order Management</label>
+                        <ul class="nav nav-list tree">
+                            <li><a href="orderlist.jsp" target="main">Order List</a></li>                                                                
+                        </ul>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+	</div>
+</div>
+
+ <!-- jQuery -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+ <!-- Bootstrap Core JavaScript -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $('label.tree-toggler').click(function () {
+        $(this).parent().children('ul.tree').toggle(300);
+    });
+});
+</script>
+</body>
+</html>
