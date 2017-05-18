@@ -118,6 +118,54 @@ public class OrderMySQLDAO implements OrderDAO {
 		return pageCount;
 	}
 
+	public int getOrdersByUserid(List<SalesOrder> list, int pageNo, int pageSize, int userid) {
+		int pageCount = 0;
+
+		Connection conn = null;
+		ResultSet rs = null;
+		ResultSet rsCount = null;
+
+		try {
+			conn = DB.getConn();
+			rsCount = DB.executeQuery(conn, "select count(*) from salesorder where userid = " + userid);
+			rsCount.next();
+			pageCount = (rsCount.getInt(1) + pageSize - 1) / pageSize;
+
+			String sql = "select salesorder.id, salesorder.userid, salesorder.odate, salesorder.addr, "
+					+ "salesorder.status, ruser.id uid, ruser.username, ruser.password, ruser.addr uaddr, "
+					+ "ruser.phone, ruser.rdate from salesorder left join ruser on "
+					+ "(salesorder.userid=ruser.id) where salesorder.userid=" + userid
+					+ " order by salesorder.odate desc limit " + (pageNo - 1) * pageSize + ", " + pageSize;
+			System.out.println(sql);
+			rs = DB.executeQuery(conn, sql);
+			while (rs.next()) {
+				User u = new User();
+				u.setId(rs.getInt("uid"));
+				u.setAddr(rs.getString("uaddr"));
+				u.setUsername(rs.getString("username"));
+				u.setPassword(rs.getString("password"));
+				u.setPhone(rs.getString("phone"));
+				u.setRdate(rs.getTimestamp("rdate"));
+
+				SalesOrder so = new SalesOrder();
+				so.setId(rs.getInt("id"));
+				so.setAddr(rs.getString("addr"));
+				so.setoDate(rs.getTimestamp("odate"));
+				so.setStatus(rs.getInt("status"));
+				so.setUser(u);
+				list.add(so);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(rs);
+			DB.close(conn);
+		}
+
+		return pageCount;
+	}
+
 	@Override
 	public SalesOrder loadById(int id) {
 		Connection conn = null;

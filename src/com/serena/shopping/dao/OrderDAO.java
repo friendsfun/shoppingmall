@@ -11,6 +11,8 @@ public interface OrderDAO {
 
 	int getOrders(List<SalesOrder> list, int pageNo, int pageSize);
 
+	int getOrdersByUserid(List<SalesOrder> list, int pageNo, int pageSize, int userid);
+
 	SalesOrder loadById(int id);
 
 	List<SalesItem> getSalesItems(SalesOrder salesOrder);

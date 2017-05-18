@@ -55,8 +55,8 @@ if(pageNo > pageCount) {
         </tr>
     </thead>
     <%
-    for(Iterator<SalesOrder> it = orders.iterator(); it.hasNext(); ) {
-    	SalesOrder so = it.next();
+	    for(Iterator<SalesOrder> it = orders.iterator(); it.hasNext();) {
+	    	SalesOrder so = it.next();
      %>
        <tr>
            <td><%= so.getId() %></td>

@@ -68,37 +68,185 @@ if(action != null && action.trim().equals("login")) {
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/register-style.css" rel="stylesheet">
     
-    <script type="text/javascript">
-    <!--
-    	var req;
-    	function validate() {
-    		var idField = document.getElementById("userid");
-    		var url = "validate.jsp?id=" + escape(idField.value);
-    		if(window.XMLHttpRequest()) {
-    			req = new XMLHttpRequest();
-    		} else {
-    			req = new ActiveXObject("Microsoft.XMLHTTP");
-    		}
-    		req.onreadystatechange = callback;
-    		req.open("GET", url, true); // asynchronous
+    <script type="text/javascript"> 	
+  		var usernameExist = false;
+    	function checkUsernameExsit() {
+    		var usernameField = document.getElementById("userid");
+    		var username = usernameField.value;
+    		var url = "validate.jsp?username=" + escape(usernameField.value);
+    		var xhr = createXmlHttp();
+    		xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4){
+					if(xhr.status == 200){
+						document.getElementById("spanMsg").innerHTML = xhr.responseText;
+						// alert(typeof xhr.responseText) //string
+						var res = xhr.responseText;
+						if(res.length == 52) {							
+							usernameExist = true;
+						} else {
+							usernameExist = false;
+						}
+					}
+				}			
+			}		
     		
-    		req.send(); 
-    		
+			xhr.open("GET", url, true);
+			xhr.send(null);
     	}
     	
-    	function callback() {
-    		if(req.readyState == 4 && req.status == 200) {
-    			var msg = req.responseXML.getElementsByTagName("msg")[0];
-    			setMsg(msg.childNodes[0].nodeValue);
-    		}
+    	function createXmlHttp() {
+    		var xmlHttp;
+    		try { // Firefox, Opera 8.0+, Safari
+    			xmlHttp = new XMLHttpRequest();
+    		} catch (e) {
+    			try { // Internet Explorer
+    				xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+    			} catch (e) {
+    				try {
+    					xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+    				} catch (e) {}
+    			}
+    		} 
+    		return xmlHttp;
     	}
     	
-    	function setMsg(msg) {
-    		if(msg == "invalid") {
-    			document.getElementById("usermsg").innerHTML = "<font color='red'>this username already exists!</font>";    			
-    		}
-    	}
-    -->
+function checkdata() {
+	var usr = form.username.value.toLowerCase();
+	var password = form.password.value;
+	var password2 = form.password2.value;
+	var phone = form.phone.value;
+	var addr = form.addr.value;
+	if(!checkUserName(usr)) {
+		return false; 
+	}
+	if(!checkPassword(usr, password, password2)) {
+		return false;
+	}
+
+	if(!checkPhone(phone)) {
+		return false;
+	}
+	if(!checkAddr(addr)) {
+		return false;
+	}	
+	if(usernameExist) {
+		return false;
+	}
+	return true;
+}
+
+
+function checkPhone(phone) {
+	if(phone == "") {
+		alert("\Please enter your phone number!")
+		form.phone.focus()
+		return false;
+	}
+	return true;
+}
+
+function checkAddr(addr) {
+	if(addr == "") {
+		alert("\Please enter your address!")
+		form.addr.focus()
+		return false;
+	}
+	return true;
+}
+
+
+function checkUserName(usr) {
+	if (usr.length <3 || usr.length > 18) {
+		alert("\Invalid username! The length of the username must be greater than 2 and less than 19.")
+		form.username.focus()
+		return false;
+	}
+	if (isWhiteSpace(usr)){
+		alert("\Invalid username! Spaces are not allowed in your username.")
+		form.username.focus()
+		return false;
+	}
+	if (!isUsrString(usr)){
+		alert("Invalid username!\n Only the 26 english characters, digits of 0~9 and the specialcharacters are allowed in username.")
+		form.username.focus()
+		return false;
+	}
+	return true;
+}
+
+function checkPassword(usr, password, password2) {
+	if( strlen(password)<6 || strlen(password)>16 ) {
+		alert("\The length of password must be between 6 and 16!")
+		form.password.focus()
+		return false;
+	}
+	if( strlen2(password) ) {
+		alert("\Invalid characters are used in your password!")
+		form.password.focus()
+		return false;
+	}
+	if( password == usr ) {
+		alert("\Password can not be the same with username.")
+		form.password.focus()
+		return false;
+	}
+	if( password2 =="" ) {
+		alert("\Please enter the password again to confirm!")
+		form.password2.focus()
+		return false;
+	}
+	if( password2 != password ) {
+		alert("\The two passwords are not matched!")
+		form.password.focus()
+		return false;
+	}
+	return true;
+}
+
+function strlen(str) {
+	var len;
+	var i;
+	len = 0;
+	for(i = 0; i < str.length; i++) {
+		if(str.charCodeAt(i) > 255) {
+			len = len + 2;
+		} else {
+			len++;
+		}
+	}
+	return len;
+}
+
+function strlen2(str) {
+	var i;
+	for(i = 0; i < str.length; i++) {
+		if(str.charCodeAt(i) > 255) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function isWhiteSpace(s) {
+	var whitespace = " \t\n\r";
+	var i;
+	for(i = 0; i < s.length; i++) {
+		var c = s.charAt(i);
+		if(whitespace.indexOf(c) >= 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function isUsrString(usr) {
+	var re = /^[0-9a-z][\w-.]*[0-9a-z]$/i;
+	if(re.test(usr)) {
+		return true;
+	} else {
+		return false;
+	}
+}
     </script>
 
 </head>
@@ -152,7 +300,7 @@ if(action != null && action.trim().equals("login")) {
 					<%
 						} else {
 					%>
-					<li class="dropdown"><span style="font-size: 16px;">Hello, <a href="userprofile.jsp"
+					<li class="dropdown"><span style="font-size: 16px;"><a href="userprofile.jsp"
 						class="dropdown-toggle" data-toggle="dropdown" role="button"
 						aria-haspopup="true" aria-expanded="false"><%=user.getUsername()%></span>
 							<span class="caret"></span></a>
@@ -217,7 +365,7 @@ if(action != null && action.trim().equals("login")) {
 										<div class="row">
 											<div class="col-lg-12">
 												<div class="text-center">
-													<a href="http://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
+													<a href="#" tabindex="5" class="forgot-password">Forgot Password?</a>
 												</div>
 											</div>
 										</div>
@@ -226,8 +374,9 @@ if(action != null && action.trim().equals("login")) {
 								<form name="form" id="register-form" action="register.jsp" method="post" role="form" onSubmit="return checkdata()" style="display: none;">
 									<input type="hidden" name="action" value="register">
 									<div class="form-group">
-										<input type="text" name="username" id="userid" tabindex="1" class="form-control" placeholder="Username" value="" onblur="validate()">
-										<div id="usermsg"></div>
+										<input type="text" name="username" id="userid" tabindex="1" class="form-control" placeholder="Username" value="" onblur="checkUsernameExsit()">
+										<span id="spanMsg" style="color: red; font-size: 16px;"></span>
+										
 									</div>
 									<div class="form-group">
 										<input type="password" name="password" id="password" tabindex="1" class="form-control" placeholder="Password" value="">
@@ -263,7 +412,9 @@ if(action != null && action.trim().equals("login")) {
  <!-- Bootstrap Core JavaScript -->
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  <script type="text/javascript" src="js/registerui.js"></script>
- <script type="text/javascript" src="js/regcheckdata.js"></script>
+ <script>
+ 	
+ </script>
 </body>
 
 </html>

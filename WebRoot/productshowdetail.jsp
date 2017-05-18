@@ -158,14 +158,18 @@ select::-ms-expand {
 					<%
 						} else {
 					%>
-					<li class="dropdown"><span style="font-size: 16px;">Hello, <a href="userprofile.jsp"
+					<a href="userprofile.jsp"
 						class="dropdown-toggle" data-toggle="dropdown" role="button"
-						aria-haspopup="true" aria-expanded="false"><%=u.getUsername()%></span>
-							<span class="caret"></span></a>
+						aria-haspopup="true" aria-expanded="false">
+					<li class="dropdown">
+						<span style="font-size: 16px;"><%=u.getUsername()%></span>
+						<span class="caret"></span>					
 						<ul class="dropdown-menu">
-							<li><a href="#">My Account</a></li>
-							<li><a href="#">My Orders</a></li>
-						</ul></li>
+							<li><a href="userprofile.jsp">My Account</a></li>
+							<li><a href="userprofile.jsp#myOrder">My Orders</a></li>
+							<li><a href="userprofile.jsp#settings">Settings</a></li>
+						</ul>
+					</li></a>
 
 					<li><a href="logout.jsp"><span style="font-size: 16px;">Log out</span></a></li>
 					<%
@@ -188,9 +192,9 @@ select::-ms-expand {
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li><a href="index.jsp">Home</a></li>
-					<li><a href="productsofcategory.jsp?categoryid=<%=c.getId() %>"><%=c.getName()%></a></li>
-					<li class="active"><%=p.getName()%></li>
+					<li><span style="font-family: Times; font-size: 20px;"><a href="index.jsp">Home</a></span></li>
+					<li><span style="font-family: Times; font-size: 18px;"><a href="productsofcategory.jsp?categoryid=<%=c.getId() %>"><%=c.getName()%></a></span></li>
+					<li class="active"><span style="font-family: Times; font-size: 16px;"><%=p.getName()%></span></li>
 				</ol>
 			</div>
 		</div>

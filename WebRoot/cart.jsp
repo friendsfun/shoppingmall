@@ -9,13 +9,13 @@
 	Cart cart = (Cart) session.getAttribute("cart");
 
 	if (cart == null) {
-		out.println("There is no items in the shopping cart.");
+		response.sendRedirect("emptycart.jsp");
 		return;
 	}
 
 	List<CartItem> items = cart.getItems();
 	if(items.size() == 0) {
-		out.println("There is no items in the shopping cart.");
+		response.sendRedirect("emptycart.jsp");
 		return;
 	}
 	int id = 0;
@@ -150,14 +150,18 @@
 					<%
 						} else {
 					%>
-					<li class="dropdown"><span style="font-size: 16px;">Hello, <a href="userprofile.jsp"
+					<a href="userprofile.jsp"
 						class="dropdown-toggle" data-toggle="dropdown" role="button"
-						aria-haspopup="true" aria-expanded="false"><%=u.getUsername()%></span>
-							<span class="caret"></span></a>
+						aria-haspopup="true" aria-expanded="false">
+					<li class="dropdown">
+						<span style="font-size: 16px;"><%=u.getUsername()%></span>
+						<span class="caret"></span>					
 						<ul class="dropdown-menu">
-							<li><a href="#">My Account</a></li>
-							<li><a href="#">My Orders</a></li>
-						</ul></li>
+							<li><a href="userprofile.jsp">My Account</a></li>
+							<li><a href="userprofile.jsp#myOrder">My Orders</a></li>
+							<li><a href="userprofile.jsp#settings">Settings</a></li>
+						</ul>
+					</li></a>
 
 					<li><a href="logout.jsp"><span style="font-size: 16px;">Log out</span></a></li>
 					<%

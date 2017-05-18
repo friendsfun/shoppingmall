@@ -43,6 +43,10 @@ public class OrderMgr {
 		return dao.getOrders(list, pageNo, pageSize);
 	}
 
+	public int getOrdersByUserid(List<SalesOrder> list, int pageNo, int pageSize, int userid) {
+		return dao.getOrdersByUserid(list, pageNo, pageSize, userid);
+	}
+
 	public SalesOrder loadById(int id) {
 		return dao.loadById(id);
 	}

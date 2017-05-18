@@ -58,7 +58,7 @@
 
 </head>
 
-<body style="font-family: Times;">
+<body style="font-family: Times; padding-top: 70px;">
 	<!-- Navigation -->
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
@@ -109,15 +109,18 @@
 					<%
 						} else {
 					%>
-					<li class="dropdown"><span style="font-size: 16px;">Hello,
-							<a href="userprofile.jsp" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false"><%=u.getUsername()%>
-					</span> <span class="caret"></span></a>
+					<a href="userprofile.jsp"
+						class="dropdown-toggle" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+					<li class="dropdown">
+						<span style="font-size: 16px;"><%=u.getUsername()%></span>
+						<span class="caret"></span>					
 						<ul class="dropdown-menu">
-							<li><a href="#">My Account</a></li>
-							<li><a href="#">My Orders</a></li>
-						</ul></li>
+							<li><a href="userprofile.jsp">My Account</a></li>
+							<li><a href="userprofile.jsp#myOrder">My Orders</a></li>
+							<li><a href="userprofile.jsp#settings">Settings</a></li>
+						</ul>
+					</li></a>
 
 					<li><a href="logout.jsp"><span style="font-size: 16px;">Log
 								out</span></a></li>
@@ -249,18 +252,18 @@
 						<%
 							if (u != null) {
 						%>
-						<span> Welcome, <%=u.getUsername()%>! Please confirm the
+						<p style="font-family: Times; font-size: 18px;"> Welcome, <%=u.getUsername()%>! Please confirm the
 							address information of your order.
-						</span> <br>
+						</p> 						
 						<%
 							}
 						%>
-
+						<br>
 						<form action="order.jsp" method="post">
 							<table class="table table-hover">
 								<tr>
-									<td>Shipping Address: &nbsp; &nbsp;<br> <textarea
-											name="addr" rows="12" cols="60"><%=(u == null ? "" : u.getAddr())%></textarea>
+									<td style="font-family: Times; font-size: 18px;"><p>Shipping Address: &nbsp; &nbsp;</p><textarea
+											name="addr" rows="10" cols="60"><%=(u == null ? "" : u.getAddr())%></textarea>
 									</td>
 									<td class="text-right"><input type="submit"
 										class="btn btn-primary" value="Order"></td>

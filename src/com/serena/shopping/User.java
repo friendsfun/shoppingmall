@@ -143,6 +143,30 @@ public class User {
 	 * 
 	 */
 
+	public static Boolean exsitUsername(String username) {
+		Connection conn = null;
+		ResultSet rs = null;
+		try {
+			conn = DB.getConn();
+			// when username is not case sensitive
+			String sql = "select * from ruser where username = '" + username + "'";
+			// when username is case sensitive
+			// String sql = "select * from ruser where binary username = '" +
+			// username + "'";
+
+			rs = DB.executeQuery(conn, sql);
+			if (!rs.next()) {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(rs);
+			DB.close(conn);
+		}
+		return true;
+	}
+
 	public static List<User> getUsers() {
 		List<User> list = new ArrayList<User>();
 		Connection conn = null;
